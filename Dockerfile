@@ -2,18 +2,19 @@ FROM mikemorris89/mm-rbase
 
 MAINTAINER Mike Morris "Mike.Morris89@gmail.com"
 
-RUN aptitude install -y -t unstable
-RUN aptitude install -y -t sudo
-RUN aptitude install -y -t gdebi-core
-RUN aptitude install -y -t pandoc
-RUN aptitude install -y -t pandoc-citeproc
-RUN aptitude install -y -t libcurl4-gnutls-dev
-RUN aptitude install -y -t libcairo2-dev/unstable
-RUN aptitude install -y -t libxt-dev
+RUN apt-get update 
+#&& apt-get install -y -t unstable \
+	#&& sudo 
+RUN apt-get install -y gdebi-core 
+RUN apt-get install -y pandoc 
+RUN apt-get install -y pandoc-citeproc  
+RUN apt-get install -y libcurl4-gnutls-dev 
+RUN apt-get install -y libcairo2-dev/unstable 
+RUN apt-get install -y libxt-dev
 
-RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubuntu-12.04/VERSION -O "version.txt" && \
+RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubuntu-12.04/x86_64/VERSION -O "version.txt" && \
 	VERSION=$(cat version.txt) && \
-	wget --no-verbose "https://s3.amazon.com/rstudio-shiny-server-os-build/ubibtu-12.04/x86_64/shiny-server-$VERSION-amd64.deb" -O ss-latest.deb
+	wget --no-verbose "https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubuntu-12.04/x86_64/shiny-server-$VERSION-amd64.deb" -O ss-latest.deb
 
 RUN gdebi -n ss-latest.deb
 
