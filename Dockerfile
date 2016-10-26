@@ -1,10 +1,16 @@
 FROM mikemorris89/mm-rbase
 
 MAINTAINER Mike Morris "Mike.Morris89@gmail.com"
+RUN echo "force rebuild 001.000"
+RUN locale-gen en_US.UTF-8
+RUN dpkg-reconfigure locales
+RUN echo "LANG=en_US.UTF-8" >> /etc/default/locale
+RUN sh -c "echo 'LC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8' >> /etc/environment"
 
-RUN apt-get update 
-#&& apt-get install -y -t unstable \
-	#&& sudo 
+RUN apt-get update -y
+RUN apt-get install -y -t unstable 
+RUN apt-get update -y
+RUN apt-get install -y sudo 
 RUN apt-get install -y gdebi-core 
 RUN apt-get install -y pandoc 
 RUN apt-get install -y pandoc-citeproc  
