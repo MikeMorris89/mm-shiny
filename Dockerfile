@@ -32,21 +32,43 @@ RUN R -e "install.packages('shinyjs', dep=T, repos='https://cran.rstudio.com/')"
 RUN R -e "install.packages('shinydashboard', dep=T, repos='https://cran.rstudio.com/')"
 RUN R -e "install.packages('data.table', dep=T, repos='https://cran.rstudio.com/')"
 RUN R -e "install.packages('plotly', dep=T, repos='https://cran.rstudio.com/')"
+RUN R -e "install.packages('flexdashboard', dep=T, repos='https://cran.rstudio.com/')"
+RUN R -e "install.packages('htmlwidgets', dep=T, repos='https://cran.rstudio.com/')"
 
+RUN R -e "system('shiny-server --version',intern=TRUE)"
 
 EXPOSE 3838
 
+#App folder
+##############################
 VOLUME /srv/shiny-server
-
 RUN chown -R shiny /srv/shiny-server/
 
+
+#Run Scripts
+##############################
 COPY shiny-server.sh /usr/bin/shiny-server.sh
 COPY shiny-server.sh /etc/service/shiny-server/run
 RUN chmod +x /etc/service/shiny-server/run
 
+#Log folders
+##############################
 RUN touch /var/log/shiny-server.log
 RUN chown shiny /var/log/shiny-server.log
 RUN chown -R shiny /var/log/shiny-server/
 
+#html templates
+##############################
+RUN sudo mkdir /etc/shiny-server/templates/
+RUN sudo chown -R /etc/shiny-server/templates/
+COPY directoryIndex.html /etc/shiny-server/templates/directoryIndex.html
 
+
+#conf
+##############################
+RUN sudo mv /etc/shiny-server/shiny-server.conf /etc/shiny-server/shiny-server.conf
+COPY shiny-server.conf /etc/shiny-server/shiny-server.conf 
+
+#cmd entry
+##############################
 CMD ["/usr/bin/shiny-server.sh"]
