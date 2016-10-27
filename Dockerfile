@@ -60,13 +60,13 @@ RUN chown -R shiny /var/log/shiny-server/
 #html templates
 ##############################
 RUN sudo mkdir /etc/shiny-server/templates/
-RUN sudo chown -R /etc/shiny-server/templates/
+RUN sudo chown -R shiny /etc/shiny-server/templates/
 COPY directoryIndex.html /etc/shiny-server/templates/directoryIndex.html
 
 
 #conf
 ##############################
-RUN sudo mv /etc/shiny-server/shiny-server.conf /etc/shiny-server/shiny-server.conf
+RUN sudo mv /etc/shiny-server/shiny-server.conf /etc/shiny-server/shiny-server.conf.bak
 COPY shiny-server.conf /etc/shiny-server/shiny-server.conf 
 
 #cmd entry
