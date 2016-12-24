@@ -59,10 +59,12 @@ RUN chown -R shiny /var/log/shiny-server/
 
 #html templates
 ##############################
+RUN echo "force template rerun v01.02"
 RUN sudo mkdir /etc/shiny-server/templates/
+RUN sudo mkdir /etc/shiny-server/templates/images
 RUN sudo chown -R shiny /etc/shiny-server/templates/
-COPY directoryIndex.html /etc/shiny-server/templates/directoryIndex.html
-
+COPY directoryIndexv1.html /etc/shiny-server/templates/directoryIndex.html
+COPY images /etc/shiny-server/templates/images
 
 #conf
 ##############################
